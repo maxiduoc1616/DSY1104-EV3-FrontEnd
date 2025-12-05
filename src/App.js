@@ -13,7 +13,7 @@ import Nosotros from "./pages/Nosotros.jsx";
 import Contacto from "./pages/Contacto.jsx";
 import Login from "./pages/IniciarSesion.jsx";
 import Registro from "./components/RegistrarYAgregarUsuario.jsx";
-import UsersList from "./components/UserList.jsx"; 
+import UsersList from "./components/UserList.jsx";
 
 // Páginas de admin
 import Inicio from "./pages/admin/Inicio.jsx";
@@ -26,6 +26,9 @@ import ProductsPage from "./pages/admin/ProductsPage.jsx";
 import mastercardLogo from "./assets/img/logo-Mastercard.png";
 import paypalLogo from "./assets/img/Paypal_2014_logo.png";
 import visaLogo from "./assets/img/Visa_Logo.png";
+
+// Importar PrivateRoute
+import PrivateRoute from "./components/PrivateRoute";
 
 export default function App() {
   const location = useLocation();
@@ -46,13 +49,12 @@ export default function App() {
         <Route path="/contacto" element={<Contacto />} />
         <Route path="/iniciarsesion" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
-        
+
         {/* Ruta para mostrar la lista de usuarios */}
         <Route path="/usuarios" element={<UsersList />} />
-        
 
         {/* ==== RUTAS DE ADMIN ==== */}
-        <Route path="/admin" element={<AdminPanel />}>
+        <Route path="/admin" element={<PrivateRoute element={AdminPanel} roles={['ADMIN']} />}>
           <Route index element={<Inicio />} />
           <Route path="ordenes" element={<Ordenes />} />
           <Route path="clientes" element={<Clientes />} />

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
+
 import "../styles/estiloAdmin.css";
 import logo from "../assets/img/logo.png";
 
 export default function AdminPanel() {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("usuarioLogueado")
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("jwtToken"));
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -14,7 +14,12 @@ export default function AdminPanel() {
     const password = e.target.password.value.trim();
 
     if (usuario === "admin" && password === "1234") {
-      localStorage.setItem("usuarioLogueado", usuario);
+      const token = "fake-jwt-token";
+
+      localStorage.setItem("jwtToken", token);
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+
       setIsLoggedIn(true);
     } else {
       alert("Credenciales incorrectas");
@@ -23,7 +28,7 @@ export default function AdminPanel() {
 
   const handleLogout = () => {
     if (window.confirm("¿Deseas cerrar sesión?")) {
-      localStorage.removeItem("usuarioLogueado");
+      localStorage.removeItem("jwtToken");
       setIsLoggedIn(false);
     }
   };

@@ -21,53 +21,32 @@ const RegistroYAgregarUsuario = () => {
     }));
   };
 
-  const handleSubmitRegistro = (e) => {
+  const handleSubmitRegistro = async (e) => {
     e.preventDefault();
 
     const usuario = {
       email: formData.email,
       password: formData.password,
-      nombre: formData.nombre,
-      apellido: formData.apellido,
-      phone: formData.phone,
+      name: formData.nombre,  // Mapear 'nombre' a 'name'
+      apellido: formData.apellido,  // Agregar 'apellido'
+      phone: formData.phone,  // Agregar 'phone'
       codigoPromocional:
         formData.codigoPromocional === "FELICES50"
           ? formData.codigoPromocional
           : null,
-      mayorDe50: formData.mayorDe50,
-    };
-
-    // Guardar usuario en localStorage
-    localStorage.setItem("usuario", JSON.stringify(usuario));
-    alert("Registro exitoso. ¡Bienvenido!");
-  };
-
-  // Formulario de Agregar Usuario (Añadir)
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const handleSubmitAddUser = async (e) => {
-    e.preventDefault();
-
-    const newUser = {
-      name,
-      email,
+      mayorDe50: formData.mayorDe50,  // Agregar 'mayorDe50'
     };
 
     try {
-      const response = await api.post('/api/users/add', newUser);
-
+      const response = await api.post('/api/v1/users/add', usuario);
       if (response.status === 201) {
-        setMessage('Usuario agregado con éxito');
+        alert("Registro exitoso. ¡Bienvenido!");
+        localStorage.setItem("usuario", JSON.stringify(response.data));  // Guardar el usuario registrado
       }
     } catch (error) {
-      setMessage('Error al agregar el usuario');
+      console.error("Error al registrar usuario:", error);
+      alert("Hubo un error al registrar el usuario.");
     }
-
-    // Limpiar el formulario
-    setName('');
-    setEmail('');
   };
 
   return (
@@ -83,7 +62,6 @@ const RegistroYAgregarUsuario = () => {
             id="email"
             value={formData.email}
             onChange={handleChange}
-            aria-describedby="emailHelp"
             required
           />
         </div>
@@ -152,38 +130,6 @@ const RegistroYAgregarUsuario = () => {
         </div>
         <button type="submit" className="btn btn-primary">Registrarse</button>
       </form>
-
-      {/* Mensaje de éxito al registrar usuario */}
-      {message && <p>{message}</p>}
-
-      {/* Formulario para Agregar un Usuario (Backend) */}
-      <h2>Agregar Usuario (Backend)</h2>
-      <form onSubmit={handleSubmitAddUser}>
-        <div>
-          <label htmlFor="name">Nombre:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Correo Electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Agregar Usuario</button>
-      </form>
-
-      {/* Mensaje de éxito al agregar usuario */}
-      {message && <p>{message}</p>}
     </div>
   );
 };

@@ -98,7 +98,7 @@ export default function Carrito() {
         desc = 0.1;
       }
       if (usuario.mayorDe50) {
-        desc = 0.5; // Esto sobreescribe el anterior descuento si es mayor de 50 años
+        desc = 0.5;
       }
     }
 
@@ -184,23 +184,20 @@ export default function Carrito() {
     setShowModal(true);
   }
 
-  function confirmarPago() {
+function confirmarPago() {
     alert("¡Gracias por tu compra!");
     
-    // Crear el objeto de la compra con los datos necesarios
     const compra = {
-      usuario: usuario, 
-      total: total,    
-      descuento: descuento, 
+      usuarioId: usuario.id,
+      total: total,
+      descuento: descuento,
       detalles: carrito.map((producto) => ({
-        productoId: producto.id,
+        productoId: producto.id, 
         cantidad: producto.cantidad,
       })),
     };
-    
-  
-    // Realizar la solicitud POST a /api/compras/registrar
-    api.post('/api/compras/registrar', compra)
+
+    api.post('/api/v1/compras/realizar', compra)
       .then(response => {
         console.log('Compra registrada:', response.data);
         limpiarCarrito();
@@ -211,7 +208,8 @@ export default function Carrito() {
         console.error('Error al registrar la compra:', error);
         alert("Hubo un problema al registrar tu compra. Intenta nuevamente.");
       });
-  }
+}
+
 
   return (
     <div className="container my-4">
@@ -236,7 +234,7 @@ export default function Carrito() {
             ))}
           </select>
 
-          <h2>products</h2>
+          <h2>Productos</h2>
           <div id="listaproducts">
             {productsFiltrados.map((p) => (
               <div key={p.id} className="producto border p-3 mb-3 rounded">
