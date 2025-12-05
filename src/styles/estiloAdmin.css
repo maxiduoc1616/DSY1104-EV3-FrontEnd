@@ -1,0 +1,82 @@
+/* Sidebar */
+.sidebar {
+  background-color: #FFC0CB; /* Rosado fuerte */
+  color: #ffffff; /* Letras del menú blancas */
+  height: 100vh;
+  width: 250px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Logo */
+.sidebar img {
+  border-radius: 8px;
+}
+
+/* Título del menú */
+.sidebar h5 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Enlaces del menú */
+.sidebar .nav-link {
+  color: #ffffff; /* Mantiene letras blancas */
+  font-size: 1rem;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  padding: 8px 12px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+/* Enlace activo */
+.sidebar .nav-link.active {
+  background-color: #e83e8c; /* Rosado Bootstrap */
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Hover */
+.sidebar .nav-link:hover:not(.active) {
+  background-color: #e83e8c;
+  color: #ffffff;
+}
+
+/* Botón Cerrar Sesión */
+.logout-container {
+  margin-top: auto; /* Mantiene el botón al fondo */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  padding-top: 1rem;
+}
+
+.btn-logout {
+  width: 80%; /* Ajusta el ancho del botón */
+  background-color: #cc0909; /* Rectángulo rojo sólido */
+  color: #ffffff; /* Letras blancas */
+  font-weight: 600;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Mantener mismo color al pasar el mouse */
+.btn-logout:hover {
+  background-color: #cc0909; /* Mantiene rojo */
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Contenido principal */
+.flex-grow-1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Evitar que la selección de texto cambie el color */
+.sidebar, .sidebar * {
+  user-select: none;
+}
