@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../services/axios"; 
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -11,18 +11,21 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/login", {
-        username,
+      const response = await api.post("/v1/auth/login", {
+        email: username, 
         password,
       });
 
-      const token = response.data.token; // Asumiendo que el token se devuelve aquí
-      localStorage.setItem("jwtToken", token); // Guardar el JWT en localStorage
+      const { token, userId, userName, roles } = response.data;
 
-      // Redirigir al usuario según su rol o directamente al panel de administración
+      localStorage.setItem("jwtToken", token); 
+      localStorage.setItem("user", JSON.stringify({ userId, userName, roles })); 
+
       navigate("/admin");
+      
     } catch (error) {
-      alert("Credenciales incorrectas");
+      console.error("Error de autenticación:", error.response ? error.response.data : error.message);
+      alert("Credenciales incorrectas o error en el servidor.");
     }
   };
 
@@ -30,7 +33,7 @@ export default function Login() {
     <form onSubmit={handleLogin}>
       <input
         type="text"
-        placeholder="Usuario"
+        placeholder="Email" 
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
